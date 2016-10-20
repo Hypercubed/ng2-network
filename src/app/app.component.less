@@ -1,0 +1,40 @@
+
+#_network__chart .node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+#_network__chart .link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+
+.float-top {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.d3-tip {
+	max-width: 300px;
+	font: 11px sans-serif;
+	font-weight: normal;
+
+  hr {
+    margin-top: 2px;
+    margin-bottom: 2px;
+  }
+
+  &.animate {
+    left: 0;  top: 0;
+    opacity: 0;
+    transition: left 0.2s ease-out, opacity 0.2s ease-out;
+    -webkit-transition: left 0.2s ease-out, opacity 0.2s ease-out;
+  }
+
+  &.animate-top {
+    opacity: 0;
+    transition: top 0.2s ease-out, opacity 0.2s ease-out;
+    -webkit-transition: top 0.2s ease-out, opacity 0.2s ease-out;
+  }
+}

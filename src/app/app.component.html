@@ -1,0 +1,28 @@
+<div class="container">
+  <h1>IP Network</h1>
+  <div class="row">
+    <div class="float-top">
+      <select [(ngModel)]="selectedChart" (ngModelChange)="makeChart()">
+        <option *ngFor="let key of charts" [value]="key" >{{key}}</option>
+      </select>
+    </div>
+
+    <input type="text"  class="form-control" id="ip"
+       [(ngModel)]="filter.ip"
+       (ngModelChange)="applyFilter()"
+       placeholder="filter by IP"
+       name="ip">
+
+    <div id="_network__chart" class="network_chart">
+    </div>
+
+    <div id="node-context-menu" class="btn-group" uib-dropdown is-open="status.isopen">
+      <ul class="dropdown-menu" *ngIf="selected" role="menu" aria-labelledby="single-button">
+        <li class="text-center" role="dropdown-header">{{selected.ip}}</li>
+        <li class="divider"></li>
+        <li role="menuitem"><a href="#" (click)="geoLocate(selected.ip)">Geolocate</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
