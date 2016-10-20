@@ -77,10 +77,17 @@ export class AppComponent implements OnInit {
       .toPromise()
       .then((res: Response) => {
         const data = res.json();
-        const url = `http://maps.google.com/?q=${data.lat},${data.lon}`;
-        if (confirm(`Open ${url} ?`)) {
-          window.open(url, '_blank');
+        if (data.lat && data.lon) {
+          const url = `http://maps.google.com/?q=${data.lat},${data.lon}`;
+          if (confirm(`Open ${url} ?`)) {
+            window.open(url, '_blank');
+          }
+        } else {
+          alert('Unknown IP address');
         }
+      })
+      .catch(() => {
+        alert('Error loading data from ip-api.com');
       });
       // todo: catch error
   }
