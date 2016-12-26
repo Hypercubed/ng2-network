@@ -1,5 +1,4 @@
-declare var d3: any;
-declare var THREE: any;
+import * as d3 from 'd3';
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Http, Response } from '@angular/http';
@@ -127,7 +126,7 @@ export class AppComponent implements OnInit {
 
 function processData (data) {
   const nodes = data.nodes.map((d, id) => {
-    return {
+    const node: any = {
       group: d.ip.slice('.')[0],
       ip: d.ip,
       id,
@@ -135,6 +134,7 @@ function processData (data) {
       indegree: 0,
       visible: true
     };
+    return node;
   });
 
   const links = data.links.map(d => {

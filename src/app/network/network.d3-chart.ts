@@ -1,8 +1,5 @@
-declare var d3: any;
-
-// import * as d3 from 'd3';
-// import d3Tip from 'd3-tip';
-// import 'd3-tip/examples/example-styles.css!';
+import * as d3 from 'd3';
+import * as d3tip from 'd3-tip';
 
 export default function Network (opts) {
   opts = opts || {};
@@ -18,12 +15,12 @@ export default function Network (opts) {
     .linkDistance(30)
     .size([width, height]);
 
-  const tip = d3.tip()
+  const tip = d3tip()
     .attr('class', 'd3-tip animate')
     .offset([-10, 0])
     .html(d => `${d.ip}`);
 
-  const dispatch = d3.dispatch('mouseover', 'mouseout', 'contextmenu');
+  const dispatch: any = d3.dispatch('mouseover', 'mouseout', 'contextmenu');
 
   const chart: any = function chart (selection) {
     selection.each(function (graph) {
@@ -39,20 +36,23 @@ export default function Network (opts) {
 
       svg.call(tip);
 
+      const dataNodes: [any] = graph.nodes.filter(d => d.visible);
+      const dataLinks: [any] = graph.links.filter(d => d.target.visible && d.source.visible);
+
       force
         .size([width, height])
-        .nodes(graph.nodes.filter(d => d.visible))
-        .links(graph.links.filter(d => d.target.visible && d.source.visible))
+        .nodes(dataNodes)
+        .links(dataLinks)
         .start();
 
       const link = svg.selectAll('.link')
-          .data(force.links())
+          .data(dataLinks)
         .enter().append('line')
           .attr('class', 'link')
           .style('stroke-width', d => Math.sqrt(d.value));
 
       const node = svg.selectAll('.node')
-          .data(force.nodes())
+          .data(dataNodes)
         .enter().append('circle')
           .attr('class', 'node')
           .attr('r', 5)
@@ -61,7 +61,7 @@ export default function Network (opts) {
           .on('mouseout', tip.hide)
           .on('mousedown', d => {
             // using mousedown vs. contextmenu because firefox
-            const event = d3.event;
+            const event: any = d3.event;
             if (event.which === 3) {  // right click
               event.preventDefault();
               return dispatch.contextmenu.call(container, event, d);
@@ -69,12 +69,14 @@ export default function Network (opts) {
             return dispatch.contextmenu.call(container, event, null);
           })
           .on('contextmenu', d => {
-            d3.event.preventDefault();
+            const e: any = d3.event;
+            e.preventDefault();
           })
           .call(force.drag);
 
       container.on('click', () => {
-        d3.event.preventDefault();
+        const e: any = d3.event;
+        e.preventDefault();
         return dispatch.contextmenu.call(container, d3.event, null);
       });
 
